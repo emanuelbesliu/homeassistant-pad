@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/emanuelbesliu/homeassistant-pad/compare/v0.1.0...v0.1.1) (2026-03-19)
+
+
+### Bug Fixes
+
+* sync manifest.json version to 0.1.0 to match release tag ([b41301a](https://github.com/emanuelbesliu/homeassistant-pad/commit/b41301a6665685d590e4cbb1e2b85fb51623f887))
+
 ## 0.1.0 (2026-03-19)
 
 
