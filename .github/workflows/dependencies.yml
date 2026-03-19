@@ -34,7 +34,6 @@ jobs:
       - name: Test import
         run: |
           python -c "import requests; print(f'requests version: {requests.__version__}')"
-          python -c "import bs4; print(f'beautifulsoup4 version: {bs4.__version__}')"
           echo "✓ All dependencies can be imported"
 
       - name: Check for security vulnerabilities
@@ -51,4 +50,4 @@ jobs:
           echo "✅ All dependencies validated successfully!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Installed Versions" >> $GITHUB_STEP_SUMMARY
-          pip list | grep -E "requests|beautifulsoup4|urllib3" >> $GITHUB_STEP_SUMMARY || true
+          pip list | grep -E "requests|urllib3" >> $GITHUB_STEP_SUMMARY || true
