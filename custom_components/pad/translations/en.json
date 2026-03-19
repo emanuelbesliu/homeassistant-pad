@@ -34,10 +34,12 @@
       "init": {
         "title": "PAD Romania Options",
         "data": {
-          "update_interval": "Update interval (seconds)"
+          "update_interval": "Update interval (seconds)",
+          "alert_preset": "Expiry alerts"
         },
         "data_description": {
-          "update_interval": "How often to check policy status (3600-604800 seconds)"
+          "update_interval": "How often to check policy status (3600-604800 seconds)",
+          "alert_preset": "When to receive alerts about policy expiry"
         }
       }
     }

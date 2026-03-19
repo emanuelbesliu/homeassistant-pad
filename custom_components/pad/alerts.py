@@ -3,9 +3,11 @@
 Fires HA events and creates persistent notifications when a PAD policy
 is approaching expiry or has expired.
 
-Alert schedule:
-- At 60, 30, 14, 7 days before expiry (one alert per threshold)
-- Daily from 7 days before expiry through expiration and beyond
+Alert presets:
+- Conservative: 60, 30, 14, 7 days + daily from 7 days
+- Standard: 30, 14, 7 days + daily from 7 days
+- Minimal: 7 days + daily from 7 days
+- Off: no alerts
 """
 
 import logging
@@ -20,8 +22,10 @@ from .const import (
     DOMAIN,
     ATTR_POLICY_FOUND,
     ATTR_VALID_UNTIL,
-    ALERT_THRESHOLDS,
-    ALERT_DAILY_THRESHOLD,
+    ALERT_PRESETS,
+    ALERT_PRESET_OFF,
+    CONF_ALERT_PRESET,
+    DEFAULT_ALERT_PRESET,
     EVENT_POLICY_EXPIRING,
     CONF_POLICY_NAME,
     CONF_SERIE_POLITA,
@@ -42,11 +46,19 @@ class PadExpiryAlerts:
         """Initialize the alert manager."""
         self._hass = hass
         self._entry = entry
-        # Track which threshold alerts have been fired (reset daily for daily alerts)
+        # Track which threshold alerts have been fired
         self._fired_thresholds: set[int] = set()
-        # Track the last date we sent a daily alert (to send at most once per day)
+        # Track the last date we sent a daily alert (at most once per day)
         self._last_daily_alert_date: str | None = None
         self._unsub: Any = None
+
+    def _get_preset_config(self) -> dict[str, Any]:
+        """Get the active alert preset configuration from entry options."""
+        preset_key = self._entry.options.get(
+            CONF_ALERT_PRESET,
+            self._entry.data.get(CONF_ALERT_PRESET, DEFAULT_ALERT_PRESET),
+        )
+        return ALERT_PRESETS.get(preset_key, ALERT_PRESETS[DEFAULT_ALERT_PRESET])
 
     @property
     def _policy_label(self) -> str:
@@ -71,7 +83,14 @@ class PadExpiryAlerts:
     @callback
     def _on_update(self) -> None:
         """Handle coordinator data update — check if alerts are needed."""
-        # Access coordinator data via hass.data
+        # Check if alerts are disabled
+        preset_key = self._entry.options.get(
+            CONF_ALERT_PRESET,
+            self._entry.data.get(CONF_ALERT_PRESET, DEFAULT_ALERT_PRESET),
+        )
+        if preset_key == ALERT_PRESET_OFF:
+            return
+
         entry_data = self._hass.data.get(DOMAIN, {}).get(self._entry.entry_id)
         if not entry_data:
             return
@@ -108,23 +127,26 @@ class PadExpiryAlerts:
         return None
 
     def _check_alerts(self, days_left: int) -> None:
-        """Determine if an alert should be sent based on days_left."""
+        """Determine if an alert should be sent based on days_left and preset."""
+        preset = self._get_preset_config()
+        thresholds = preset["thresholds"]
+        daily_below = preset["daily_below"]
         today = datetime.now().strftime("%Y-%m-%d")
 
-        # Check milestone thresholds (60, 30, 14, 7)
-        for threshold in ALERT_THRESHOLDS:
+        # Check milestone thresholds
+        for threshold in thresholds:
             if (
                 days_left <= threshold
                 and threshold not in self._fired_thresholds
             ):
                 self._fired_thresholds.add(threshold)
-                # Only fire if we're not also in daily mode for this same day
-                if days_left > ALERT_DAILY_THRESHOLD:
+                # Only fire milestone if we're not also in daily mode
+                if days_left > daily_below:
                     self._send_alert(days_left)
                     return
 
-        # Daily alerts: at or below ALERT_DAILY_THRESHOLD days, and when expired
-        if days_left <= ALERT_DAILY_THRESHOLD:
+        # Daily alerts: at or below daily_below days, and when expired
+        if daily_below >= 0 and days_left <= daily_below:
             if self._last_daily_alert_date != today:
                 self._last_daily_alert_date = today
                 self._send_alert(days_left)

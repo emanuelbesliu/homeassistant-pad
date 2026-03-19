@@ -17,10 +17,16 @@ from .const import (
     CONF_CNP_CUI,
     CONF_UPDATE_INTERVAL,
     CONF_POLICY_NAME,
+    CONF_ALERT_PRESET,
     DEFAULT_UPDATE_INTERVAL,
+    DEFAULT_ALERT_PRESET,
     MIN_UPDATE_INTERVAL,
     MAX_UPDATE_INTERVAL,
     VALID_SERIES,
+    ALERT_PRESET_CONSERVATIVE,
+    ALERT_PRESET_STANDARD,
+    ALERT_PRESET_MINIMAL,
+    ALERT_PRESET_OFF,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -132,6 +138,20 @@ class PadOptionsFlowHandler(config_entries.OptionsFlow):
             ),
         )
 
+        current_alert_preset = self.config_entry.options.get(
+            CONF_ALERT_PRESET,
+            self.config_entry.data.get(
+                CONF_ALERT_PRESET, DEFAULT_ALERT_PRESET
+            ),
+        )
+
+        alert_preset_options = {
+            ALERT_PRESET_CONSERVATIVE: "Conservative (60, 30, 14, 7 days + daily)",
+            ALERT_PRESET_STANDARD: "Standard (30, 14, 7 days + daily)",
+            ALERT_PRESET_MINIMAL: "Minimal (7 days + daily)",
+            ALERT_PRESET_OFF: "Off",
+        }
+
         options_schema = vol.Schema(
             {
                 vol.Optional(
@@ -141,6 +161,10 @@ class PadOptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Coerce(int),
                     vol.Range(min=MIN_UPDATE_INTERVAL, max=MAX_UPDATE_INTERVAL),
                 ),
+                vol.Optional(
+                    CONF_ALERT_PRESET,
+                    default=current_alert_preset,
+                ): vol.In(alert_preset_options),
             }
         )
 

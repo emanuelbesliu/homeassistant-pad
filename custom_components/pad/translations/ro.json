@@ -34,10 +34,12 @@
       "init": {
         "title": "Opțiuni PAD Romania",
         "data": {
-          "update_interval": "Interval de actualizare (secunde)"
+          "update_interval": "Interval de actualizare (secunde)",
+          "alert_preset": "Alerte expirare"
         },
         "data_description": {
-          "update_interval": "Cât de des să se verifice starea poliței (3600-604800 secunde)"
+          "update_interval": "Cât de des să se verifice starea poliței (3600-604800 secunde)",
+          "alert_preset": "Când să primiți alerte despre expirarea poliței"
         }
       }
     }

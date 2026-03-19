@@ -64,3 +64,32 @@ ALERT_DAILY_THRESHOLD = 7
 
 # Event type fired when policy is expiring/expired
 EVENT_POLICY_EXPIRING = f"{DOMAIN}_policy_expiring"
+
+# Alert preset configuration
+CONF_ALERT_PRESET = "alert_preset"
+
+ALERT_PRESET_CONSERVATIVE = "conservative"
+ALERT_PRESET_STANDARD = "standard"
+ALERT_PRESET_MINIMAL = "minimal"
+ALERT_PRESET_OFF = "off"
+
+DEFAULT_ALERT_PRESET = ALERT_PRESET_STANDARD
+
+ALERT_PRESETS = {
+    ALERT_PRESET_CONSERVATIVE: {
+        "thresholds": [60, 30, 14, 7],
+        "daily_below": 7,
+    },
+    ALERT_PRESET_STANDARD: {
+        "thresholds": [30, 14, 7],
+        "daily_below": 7,
+    },
+    ALERT_PRESET_MINIMAL: {
+        "thresholds": [7],
+        "daily_below": 7,
+    },
+    ALERT_PRESET_OFF: {
+        "thresholds": [],
+        "daily_below": -1,  # never daily
+    },
+}
