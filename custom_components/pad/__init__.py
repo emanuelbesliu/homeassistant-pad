@@ -6,6 +6,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
 from .api import PadApi
+from .alerts import PadExpiryAlerts
 from .const import DOMAIN, PLATFORMS
 from .coordinator import PadDataUpdateCoordinator
 
@@ -19,11 +20,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     coordinator = PadDataUpdateCoordinator(hass, api, entry)
     await coordinator.async_config_entry_first_refresh()
 
+    # Set up expiry alerts
+    alerts = PadExpiryAlerts(hass, entry)
+
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = {
         "coordinator": coordinator,
         "api": api,
+        "alerts": alerts,
     }
+
+    # Register alert listener after data is stored (alerts reads from hass.data)
+    alerts.register(coordinator)
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
@@ -38,6 +46,9 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     if unload_ok:
         data = hass.data[DOMAIN].pop(entry.entry_id)
+        alerts = data.get("alerts")
+        if alerts:
+            alerts.unregister()
         api = data["api"]
         await hass.async_add_executor_job(api.close)
 

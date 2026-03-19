@@ -56,3 +56,11 @@ ATTR_VALID_UNTIL = "valid_until"
 ATTR_LAST_CHECK = "last_check"
 ATTR_POLICY_FOUND = "policy_found"
 ATTR_RAW_RESPONSE = "raw_response"
+
+# Alert thresholds (days before expiry to trigger alerts)
+ALERT_THRESHOLDS = [60, 30, 14, 7]
+# Below this threshold, alert every day (includes 0 and negative = expired)
+ALERT_DAILY_THRESHOLD = 7
+
+# Event type fired when policy is expiring/expired
+EVENT_POLICY_EXPIRING = f"{DOMAIN}_policy_expiring"
