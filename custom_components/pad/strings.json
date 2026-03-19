@@ -1,0 +1,45 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PAD Romania",
+        "description": "Set up PAD (mandatory home insurance) policy verification. Enter your policy details from padrom.ro.",
+        "data": {
+          "serie_polita": "Policy series",
+          "numar_polita": "Policy number",
+          "cnp_cui": "CNP / CUI",
+          "policy_name": "Policy name (optional)",
+          "update_interval": "Update interval (seconds)"
+        },
+        "data_description": {
+          "serie_polita": "Select the policy series prefix (e.g. RA-065)",
+          "numar_polita": "The policy number (digits only)",
+          "cnp_cui": "Personal identification number (CNP) or company ID (CUI)",
+          "policy_name": "A friendly name for this policy (leave empty for auto-generated)",
+          "update_interval": "How often to check policy status (3600-604800 seconds, default 86400)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to padrom.ro. Please try again later.",
+      "invalid_number": "Policy number must contain only digits.",
+      "invalid_cnp": "CNP/CUI must contain only digits."
+    },
+    "abort": {
+      "already_configured": "This policy is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "PAD Romania Options",
+        "data": {
+          "update_interval": "Update interval (seconds)"
+        },
+        "data_description": {
+          "update_interval": "How often to check policy status (3600-604800 seconds)"
+        }
+      }
+    }
+  }
+}

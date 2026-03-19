@@ -1,0 +1,45 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PAD Romania",
+        "description": "Configurează verificarea poliței PAD (asigurare obligatorie a locuinței). Introduceți datele poliței de pe padrom.ro.",
+        "data": {
+          "serie_polita": "Seria poliței",
+          "numar_polita": "Numărul poliței",
+          "cnp_cui": "CNP / CUI",
+          "policy_name": "Numele poliței (opțional)",
+          "update_interval": "Interval de actualizare (secunde)"
+        },
+        "data_description": {
+          "serie_polita": "Selectați prefixul seriei poliței (ex. RA-065)",
+          "numar_polita": "Numărul poliței (doar cifre)",
+          "cnp_cui": "Codul numeric personal (CNP) sau codul unic de înregistrare (CUI)",
+          "policy_name": "Un nume prietenos pentru această poliță (lăsați gol pentru auto-generare)",
+          "update_interval": "Cât de des să se verifice starea poliței (3600-604800 secunde, implicit 86400)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nu se poate conecta la padrom.ro. Încercați din nou mai târziu.",
+      "invalid_number": "Numărul poliței trebuie să conțină doar cifre.",
+      "invalid_cnp": "CNP/CUI trebuie să conțină doar cifre."
+    },
+    "abort": {
+      "already_configured": "Această poliță este deja configurată."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opțiuni PAD Romania",
+        "data": {
+          "update_interval": "Interval de actualizare (secunde)"
+        },
+        "data_description": {
+          "update_interval": "Cât de des să se verifice starea poliței (3600-604800 secunde)"
+        }
+      }
+    }
+  }
+}

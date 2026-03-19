@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <clipPath id="circle-clip">
+      <circle cx="128" cy="128" r="128"/>
+    </clipPath>
+  </defs>
+  <!-- Background circle - deep blue/teal for insurance -->
+  <circle cx="128" cy="128" r="128" fill="#1B5E7B"/>
+  <!-- House body -->
+  <g clip-path="url(#circle-clip)">
+    <!-- Roof -->
+    <polygon points="128,50 55,110 201,110" fill="white" opacity="0.95"/>
+    <!-- House walls -->
+    <rect x="70" y="110" width="116" height="85" rx="4" fill="white" opacity="0.95"/>
+    <!-- Door -->
+    <rect x="108" y="145" width="40" height="50" rx="3" fill="#1B5E7B"/>
+    <!-- Door handle -->
+    <circle cx="140" cy="172" r="3" fill="white"/>
+    <!-- Shield overlay (insurance symbol) -->
+    <path d="M128,78 C128,78 100,90 100,110 C100,135 128,155 128,155 C128,155 156,135 156,110 C156,90 128,78 128,78 Z" fill="white" opacity="0.9" stroke="#1B5E7B" stroke-width="3"/>
+    <!-- Checkmark inside shield -->
+    <polyline points="116,112 125,122 142,102" fill="none" stroke="#1B5E7B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
