@@ -2,6 +2,7 @@
 
 [![HACS Validation](https://github.com/emanuelbesliu/homeassistant-pad/actions/workflows/validate.yml/badge.svg)](https://github.com/emanuelbesliu/homeassistant-pad/actions/workflows/validate.yml)
 [![Release](https://github.com/emanuelbesliu/homeassistant-pad/actions/workflows/release-please.yml/badge.svg)](https://github.com/emanuelbesliu/homeassistant-pad/releases)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/emanuelbesliu)
 
 Custom Home Assistant integration for verifying **PAD** (Polița de Asigurare a Locuinței) mandatory home insurance policies in Romania, using the public verification API on [padrom.ro](https://www.padrom.ro).
 
@@ -11,7 +12,6 @@ Custom Home Assistant integration for verifying **PAD** (Polița de Asigurare a 
 - Policy expiry date sensor
 - Days until expiry sensor (countdown)
 - Binary sensor for policy validity (ON when valid)
-- Detailed attributes: insurer, address, coverage amount, premium
 - Support for all policy series (RA-002 through RX3740)
 - Automatic daily refresh (configurable 1 hour to 7 days)
 - Full Romanian and English translations
@@ -25,7 +25,7 @@ Custom Home Assistant integration for verifying **PAD** (Polița de Asigurare a 
 | Days Until Expiry | sensor | Days remaining until expiry |
 | Policy Valid | binary_sensor | ON when policy is active and valid |
 
-All sensors share a device representing the PAD policy, with attributes including insurer, insured address, coverage amount, and premium.
+All sensors share a device representing the PAD policy.
 
 ## Installation
 
@@ -93,13 +93,22 @@ actions:
 - The integration queries the public padrom.ro verification form
 - Data is fetched via POST requests to the XF-framework AJAX endpoint
 - "Not found" does not necessarily mean invalid — the policy might use a different series/number format
-- Response HTML parsing uses multiple strategies (tables, dt/dd, labeled spans, regex fallback) and may need refinement for edge cases
+- Response parsing uses regex to extract the expiry date from the HTML response
 
 ## Support
+
+If you find this project useful, consider buying me a coffee!
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/emanuelbesliu)
 
 - [Report an issue](https://github.com/emanuelbesliu/homeassistant-pad/issues)
 - [HACS info page](info.md)
 
+---
+
 ## License
 
 MIT
+
+*Aceasta integrare nu este afiliata oficial cu PAID Romania.*
+*Datele sunt furnizate public de catre padrom.ro pentru informarea populatiei.*
