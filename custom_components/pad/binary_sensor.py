@@ -4,10 +4,7 @@ import logging
 from datetime import datetime
 from typing import Any
 
-from homeassistant.components.binary_sensor import (
-    BinarySensorDeviceClass,
-    BinarySensorEntity,
-)
+from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -47,7 +44,6 @@ class PadPolicyValidBinarySensor(
     """Binary sensor that is ON when the PAD policy is valid/active."""
 
     _attr_has_entity_name = True
-    _attr_device_class = BinarySensorDeviceClass.SAFETY
 
     def __init__(
         self,
